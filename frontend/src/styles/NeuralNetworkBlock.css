@@ -1,0 +1,25 @@
+.neural-network-block {
+    background-color: #f0f0f0; /* Светлый цвет */
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Тень */
+    transition: box-shadow 0.3s ease; /* Плавное изменение тени при наведении */
+  }
+  
+  .neural-network-block:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Небольшая тень при наведении */
+  }
+  
+  .block-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .block-footer {
+    margin-top: 10px;
+  }
+  
+  .block-footer button {
+    margin-right: 5px;
+  }  
