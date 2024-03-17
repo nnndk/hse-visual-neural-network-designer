@@ -12,7 +12,7 @@ class ModelToPythonCode(ABC):
 
 class NNBlockParam(BaseModel, ModelToPythonCode):
     name: str
-    value: str | int | bool
+    value: str | int | bool | float
 
     def to_python_code(self) -> str:
         return f'{self.name}={self.value}'
