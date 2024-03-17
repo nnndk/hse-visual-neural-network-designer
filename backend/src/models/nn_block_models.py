@@ -12,9 +12,12 @@ class ModelToPythonCode(ABC):
 
 class NNBlockParam(BaseModel, ModelToPythonCode):
     name: str
-    value: str | int | bool | float | None | tuple
+    value: str | int | bool | float | tuple | None
 
     def to_python_code(self) -> str:
+        if isinstance(self.value, str):
+            self.value = f'"{self.value}"'
+
         return f'{self.name}={self.value}'
 
 
@@ -24,6 +27,7 @@ class NNBlock(BaseModel, ModelToPythonCode):
     library_prefix: str = ''
 
     def set_library_prefix(self, lib_prefix: str) -> None:
+        """Set library prefix that will be added before every block in python model"""
         if lib_prefix == 'pytorch':
             self.library_prefix = 'nn'
         elif lib_prefix == 'tensorflow':
@@ -32,6 +36,7 @@ class NNBlock(BaseModel, ModelToPythonCode):
             self.library_prefix = ''
 
     def _params_to_python_code(self) -> str:
+        """Convert all block params into python code (str)"""
         result = ''
 
         for par in self.params:
@@ -52,12 +57,18 @@ class NNModel(BaseModel, ModelToPythonCode):
     library: str
     blocks: List[NNBlock]
 
-    def to_python_code(self) -> str:
+    def _all_blocks_to_python_code(self) -> str:
+        """Convert all blocks into python code (str)"""
         str_blocks = ''
 
         for block in self.blocks:
             block.set_library_prefix(self.library)
             str_blocks += f'\t{block.to_python_code()},\n'
+
+        return str_blocks
+
+    def to_python_code(self) -> str:
+        str_blocks = self._all_blocks_to_python_code()
 
         if self.library == 'pytorch':
             return f'nn.Sequential(\n{str_blocks})'
@@ -65,3 +76,35 @@ class NNModel(BaseModel, ModelToPythonCode):
             return f'tf.keras.models.Sequential(\n{str_blocks})'
         else:
             return ''
+
+    def _get_first_param(self, param: str) -> str:
+        """Get first value of this param from the model"""
+        str_blocks = self._all_blocks_to_python_code()
+        in_start = str_blocks.find(param)
+
+        if in_start == -1:
+            return ''
+
+        in_end = str_blocks.find(',', in_start)
+        feature = str_blocks[in_start:in_end]
+        val_start = feature.find('=')
+
+        return feature[val_start + 1:]
+
+    def get_first_in_feature(self) -> int:
+        """Get first 'in_feature' (from Linear)"""
+        val = self._get_first_param('in_features')
+
+        if val == '':
+            return 8
+
+        return int(val)
+
+    def get_first_in_channels(self) -> int:
+        """Get first 'in_channels' (from Conv2d)"""
+        val = self._get_first_param('in_channels')
+
+        if val == '':
+            return 3
+
+        return int(val)

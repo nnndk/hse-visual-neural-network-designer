@@ -7,7 +7,7 @@ const exportBlocks = async (payload, library) => {
   try {
     console.log(payload);
 
-    const response = await axios.post(`${localBaseUrl}`, payload);
+    const response = await axios.post(`${localBaseUrl}/get_model/`, payload);
 
     if(response.status == 200){
         getPyFile(response.data, getFileName(library));
