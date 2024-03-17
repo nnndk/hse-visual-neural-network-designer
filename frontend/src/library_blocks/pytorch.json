@@ -2,6 +2,7 @@
     {
       "id": "block1",
       "name": "ReLU",
+      "doc_link": "https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html",
       "parameters": [
         { "name": "inplace", "value": false }
       ]
@@ -9,6 +10,7 @@
     {
       "id": "block2",
       "name": "Conv2d",
+      "doc_link": "https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html",
       "parameters": [
         { "name": "in_channels", "value": 3 },
         { "name": "out_channels", "value": 16 },
@@ -24,6 +26,7 @@
     {
       "id": "block3",
       "name": "BatchNorm2d",
+      "doc_link": "https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm2d.html",
       "parameters": [
         { "name": "num_features", "value": 16 },
         { "name": "eps", "value": 1e-05 },
@@ -35,6 +38,7 @@
     {
       "id": "block4",
       "name": "MaxPool2d",
+      "doc_link": "https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html",
       "parameters": [
         { "name": "kernel_size", "value": 16 },
         { "name": "stride", "value": null },
@@ -47,6 +51,7 @@
     {
       "id": "block5",
       "name": "Dropout",
+      "doc_link": "https://pytorch.org/docs/stable/generated/torch.nn.Dropout.html",
       "parameters": [
         { "name": "p", "value": 0.5 },
         { "name": "inplace", "value": false }
@@ -55,6 +60,7 @@
     {
       "id": "block6",
       "name": "Flatten",
+      "doc_link": "https://pytorch.org/docs/stable/generated/torch.nn.Flatten.html",
       "parameters": [
         { "name": "start_dim", "value": 1 },
         { "name": "end_dim", "value": -1 }
@@ -63,6 +69,7 @@
     {
       "id": "block7",
       "name": "Linear",
+      "doc_link": "https://pytorch.org/docs/stable/generated/torch.nn.Linear.html",
       "parameters": [
         { "name": "in_features", "value": 64 },
         { "name": "out_features", "value": 32 },
@@ -72,6 +79,7 @@
     {
       "id": "block8",
       "name": "BatchNorm1d",
+      "doc_link": "https://pytorch.org/docs/stable/generated/torch.nn.BatchNorm1d.html",
       "parameters": [
         { "name": "num_features", "value": 16 },
         { "name": "eps", "value": 1e-05 },

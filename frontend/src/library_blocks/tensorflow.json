@@ -2,6 +2,7 @@
   {
     "id": "block1",
     "name": "ReLU",
+    "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/ReLU",
     "parameters": [
       { "name": "max_value", "value": null },
       { "name": "negative_slope", "value": 0.0 },
@@ -11,6 +12,7 @@
   {
     "id": "block2",
     "name": "Conv2D",
+    "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2D",
     "parameters": [
       { "name": "filters", "value": 2 },
       { "name": "kernel_size", "value": 3 },
@@ -25,6 +27,7 @@
   {
     "id": "block3",
     "name": "BatchNormalization",
+    "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization",
     "parameters": [
       { "name": "axis", "value": -1 },
       { "name": "momentum", "value": 0.99 },
@@ -41,6 +44,7 @@
   {
     "id": "block4",
     "name": "MaxPooling2D",
+    "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/MaxPooling2D",
     "parameters": [
       { "name": "pool_size", "value": [2, 2] },
       { "name": "strides", "value": null },
@@ -51,6 +55,7 @@
   {
     "id": "block5",
     "name": "Dropout",
+    "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout",
     "parameters": [
       { "name": "rate", "value": 0.5 },
       { "name": "noise_shape", "value": null },
@@ -60,6 +65,7 @@
   {
     "id": "block6",
     "name": "Flatten",
+    "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Flatten",
     "parameters": [
       { "name": "data_format", "value": null }
     ]
@@ -67,6 +73,7 @@
   {
     "id": "block7",
     "name": "Dense",
+    "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense",
     "parameters": [
       { "name": "units", "value": 64 },
       { "name": "use_bias", "value": true },
