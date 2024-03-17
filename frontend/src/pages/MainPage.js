@@ -113,6 +113,7 @@ class Copy extends Component {
                   <Draggable key={i}>
                     <BaseBlock
                       name={p.name}
+                      link={p.doc_link}
                       parameters={p.parameters}
                     />
                   </Draggable>
@@ -131,6 +132,7 @@ class Copy extends Component {
                   <Draggable key={i}>
                     <NeuralNetworkBlock
                       name={p.name}
+                      link={p.doc_link}
                       parameters={p.parameters}
                       onDuplicate={() => this.handleDuplicateNeuralBlock(p.id)}
                       onEdit={() => this.handleEditNeuralBlock(p)}
