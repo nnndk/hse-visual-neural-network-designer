@@ -76,3 +76,8 @@ button:hover {
     list-style-type: none;
   }
   
+  .block-types {
+    margin-top: 2px;
+    margin-bottom: 10px;
+  }
+  

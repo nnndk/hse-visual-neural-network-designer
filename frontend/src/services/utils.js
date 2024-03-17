@@ -26,3 +26,15 @@ export const applyDrag = (arr, dragResult) => {
   }
   
   export const copyObj = (obj) => JSON.parse(JSON.stringify(obj));
+
+  export const getFileName = (library) => {
+    const currentDate = new Date();
+
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+    const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+    const currentTimeString = `${hours}_${minutes}_${seconds}`;
+
+    return `${library}_model_${currentTimeString}`;
+  }

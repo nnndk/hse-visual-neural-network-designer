@@ -1,0 +1,27 @@
+[
+    {
+      "id": "a25d0a53-45b9-478f-8227-8b8a3e023345",
+      "name": "Neural Network Block",
+      "parameters": [
+        { "name": "learning_rate", "value": 0.01 },
+        { "name": "hidden_layers", "value": 3 }
+      ]
+    },
+    {
+      "id": "bb1182e9-75d4-4040-8326-624fb8dab5f2",
+      "name": "Deep Learning Block",
+      "parameters": [
+        { "name": "dropout_rate", "value": 0.2 },
+        { "name": "activation_function", "value": "ReLU" }
+      ]
+    },
+    {
+      "id": "c65e4937-8c90-4248-8a4a-dc08611b0c6f",
+      "name": "Machine Learning Block",
+      "parameters": [
+        { "name": "num_iterations", "value": 1000 },
+        { "name": "algorithm", "value": "Random Forest" }
+      ]
+    }
+  ]
+  
