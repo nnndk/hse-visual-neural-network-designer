@@ -1,43 +1,77 @@
 [
-    {
-      "id": "f8e33a35-7bd2-4a46-a3f4-eb1fbbf76e60",
-      "name": "Some NW Block1",
-      "parameters": [
-        { "name": "param1", "value": 78 },
-        { "name": "param2", "value": 726 }
-      ]
-    },
-    {
-      "id": "3a04c169-46a5-4f5f-8b1f-5a5dc8f86da7",
-      "name": "Some NW Block2",
-      "parameters": [
-        { "name": "param1", "value": 92 },
-        { "name": "param2", "value": 624 }
-      ]
-    },
-    {
-      "id": "d2228103-0129-4db4-a883-4200e7b03569",
-      "name": "Some NW Block3",
-      "parameters": [
-        { "name": "param1", "value": 33 },
-        { "name": "param2", "value": 587 }
-      ]
-    },
-    {
-      "id": "a7a0c6c1-8204-45fc-9e41-7e7cbb9364b2",
-      "name": "Some NW Block4",
-      "parameters": [
-        { "name": "param1", "value": 51 },
-        { "name": "param2", "value": 957 }
-      ]
-    },
-    {
-      "id": "3c525b35-5a5e-4856-8b42-22cf91e709bc",
-      "name": "Some NW Block5",
-      "parameters": [
-        { "name": "param1", "value": 14 },
-        { "name": "param2", "value": 233 }
-      ]
-    }
-  ]
-  
+  {
+    "id": "block1",
+    "name": "ReLU",
+    "parameters": [
+      { "name": "max_value", "value": null },
+      { "name": "negative_slope", "value": 0.0 },
+      { "name": "threshold", "value": 0.0 }
+    ]
+  },
+  {
+    "id": "block2",
+    "name": "Conv2D",
+    "parameters": [
+      { "name": "filters", "value": 2 },
+      { "name": "kernel_size", "value": 3 },
+      { "name": "strides", "value": 1 },
+      { "name": "padding", "value": "valid" },
+      { "name": "data_format", "value": null },
+      { "name": "dilation_rate", "value": [1, 1] },
+      { "name": "groups", "value": 1 },
+      { "name": "use_bias", "value": true }
+    ]
+  },
+  {
+    "id": "block3",
+    "name": "BatchNormalization",
+    "parameters": [
+      { "name": "axis", "value": -1 },
+      { "name": "momentum", "value": 0.99 },
+      { "name": "epsilon", "value": 0.001 },
+      { "name": "center", "value": true },
+      { "name": "scale", "value": true },
+      { "name": "beta_initializer", "value": "zeros" },
+      { "name": "gamma_initializer", "value": "ones" },
+      { "name": "moving_mean_initializer", "value": "zeros" },
+      { "name": "moving_variance_initializer", "value": "ones" },
+      { "name": "synchronized", "value": false }
+    ]
+  },
+  {
+    "id": "block4",
+    "name": "MaxPooling2D",
+    "parameters": [
+      { "name": "pool_size", "value": [2, 2] },
+      { "name": "strides", "value": null },
+      { "name": "padding", "value": "valid" },
+      { "name": "data_format", "value": null }
+    ]
+  },
+  {
+    "id": "block5",
+    "name": "Dropout",
+    "parameters": [
+      { "name": "rate", "value": 0.5 },
+      { "name": "noise_shape", "value": null },
+      { "name": "seed", "value": null }
+    ]
+  },
+  {
+    "id": "block6",
+    "name": "Flatten",
+    "parameters": [
+      { "name": "data_format", "value": null }
+    ]
+  },
+  {
+    "id": "block7",
+    "name": "Dense",
+    "parameters": [
+      { "name": "units", "value": 64 },
+      { "name": "use_bias", "value": true },
+      { "name": "kernel_initializer", "value": "glorot_uniform" },
+      { "name": "bias_initializer", "value": "zeros" }
+    ]
+  }
+]

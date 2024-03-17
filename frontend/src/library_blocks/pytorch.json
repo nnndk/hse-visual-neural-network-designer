@@ -1,26 +1,83 @@
 [
     {
-      "id": "a25d0a53-45b9-478f-8227-8b8a3e023345",
-      "name": "Neural Network Block",
+      "id": "block1",
+      "name": "ReLU",
       "parameters": [
-        { "name": "learning_rate", "value": 0.01 },
-        { "name": "hidden_layers", "value": 3 }
+        { "name": "inplace", "value": false }
       ]
     },
     {
-      "id": "bb1182e9-75d4-4040-8326-624fb8dab5f2",
-      "name": "Deep Learning Block",
+      "id": "block2",
+      "name": "Conv2d",
       "parameters": [
-        { "name": "dropout_rate", "value": 0.2 },
-        { "name": "activation_function", "value": "ReLU" }
+        { "name": "in_channels", "value": 3 },
+        { "name": "out_channels", "value": 16 },
+        { "name": "kernel_size", "value": 3 },
+        { "name": "stride", "value": 1 },
+        { "name": "padding", "value": 0 },
+        { "name": "dilation", "value": 1 },
+        { "name": "groups", "value": 1 },
+        { "name": "bias", "value": true },
+        { "name": "padding_mode", "value": "zeros" }
       ]
     },
     {
-      "id": "c65e4937-8c90-4248-8a4a-dc08611b0c6f",
-      "name": "Machine Learning Block",
+      "id": "block3",
+      "name": "BatchNorm2d",
       "parameters": [
-        { "name": "num_iterations", "value": 1000 },
-        { "name": "algorithm", "value": "Random Forest" }
+        { "name": "num_features", "value": 16 },
+        { "name": "eps", "value": 1e-05 },
+        { "name": "momentum", "value": 0.1 },
+        { "name": "affine", "value": true },
+        { "name": "track_running_stats", "value": true }
+      ]
+    },
+    {
+      "id": "block4",
+      "name": "MaxPool2d",
+      "parameters": [
+        { "name": "kernel_size", "value": 16 },
+        { "name": "stride", "value": null },
+        { "name": "padding", "value": 0 },
+        { "name": "dilation", "value": 1 },
+        { "name": "return_indices", "value": false },
+        { "name": "ceil_mode", "value": false }
+      ]
+    },
+    {
+      "id": "block5",
+      "name": "Dropout",
+      "parameters": [
+        { "name": "p", "value": 0.5 },
+        { "name": "inplace", "value": false }
+      ]
+    },
+    {
+      "id": "block6",
+      "name": "Flatten",
+      "parameters": [
+        { "name": "start_dim", "value": 1 },
+        { "name": "end_dim", "value": -1 }
+      ]
+    },
+    {
+      "id": "block7",
+      "name": "Linear",
+      "parameters": [
+        { "name": "in_features", "value": 64 },
+        { "name": "out_features", "value": 32 },
+        { "name": "bias", "value": true }
+      ]
+    },
+    {
+      "id": "block8",
+      "name": "BatchNorm1d",
+      "parameters": [
+        { "name": "num_features", "value": 16 },
+        { "name": "eps", "value": 1e-05 },
+        { "name": "momentum", "value": 0.1 },
+        { "name": "affine", "value": true },
+        { "name": "track_running_stats", "value": true }
       ]
     }
   ]

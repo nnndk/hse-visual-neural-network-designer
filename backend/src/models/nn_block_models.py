@@ -12,7 +12,7 @@ class ModelToPythonCode(ABC):
 
 class NNBlockParam(BaseModel, ModelToPythonCode):
     name: str
-    value: str | int | bool | float
+    value: str | int | bool | float | None | tuple
 
     def to_python_code(self) -> str:
         return f'{self.name}={self.value}'
@@ -21,6 +21,15 @@ class NNBlockParam(BaseModel, ModelToPythonCode):
 class NNBlock(BaseModel, ModelToPythonCode):
     name: str
     params: List[NNBlockParam]
+    library_prefix: str = ''
+
+    def set_library_prefix(self, lib_prefix: str) -> None:
+        if lib_prefix == 'pytorch':
+            self.library_prefix = 'nn'
+        elif lib_prefix == 'tensorflow':
+            self.library_prefix = 'tf.keras.layers'
+        else:
+            self.library_prefix = ''
 
     def _params_to_python_code(self) -> str:
         result = ''
@@ -36,7 +45,7 @@ class NNBlock(BaseModel, ModelToPythonCode):
     def to_python_code(self) -> str:
         str_params = self._params_to_python_code()
 
-        return f'{self.name}({str_params})'
+        return f'{self.library_prefix}.{self.name}({str_params})'
 
 
 class NNModel(BaseModel, ModelToPythonCode):
@@ -47,6 +56,7 @@ class NNModel(BaseModel, ModelToPythonCode):
         str_blocks = ''
 
         for block in self.blocks:
+            block.set_library_prefix(self.library)
             str_blocks += f'\t{block.to_python_code()},\n'
 
         if self.library == 'pytorch':
