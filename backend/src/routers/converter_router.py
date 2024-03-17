@@ -9,7 +9,7 @@ ConverterRouter = APIRouter(
 )
 
 
-@ConverterRouter.get('/', status_code=status.HTTP_200_OK, response_class=PlainTextResponse)
+@ConverterRouter.post('/', status_code=status.HTTP_200_OK, response_class=PlainTextResponse)
 def generate_model(model: NNModel):
     python_model = model.to_python_code()
     print(python_model)
