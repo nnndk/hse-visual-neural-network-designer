@@ -3,7 +3,7 @@ import React from 'react';
 import '../styles/NeuralNetworkBlock.css';
 import '../styles/NewNeuralNetworkBlock.css';
 
-const NeuralNetworkBlock = ({ name, parameters, onDuplicate, onEdit, onDelete, editing, editingParams, onSaveEdit, onCancelEdit, onUpdateParams }) => {
+const NeuralNetworkBlock = ({ name, link, parameters, onDuplicate, onEdit, onDelete, editing, editingParams, onSaveEdit, onCancelEdit, onUpdateParams }) => {
   const [errorMessages, setErrorMessages] = useState([]);
 
   const handleSaveEdit = () => {
@@ -14,23 +14,18 @@ const NeuralNetworkBlock = ({ name, parameters, onDuplicate, onEdit, onDelete, e
         return '';
     });
 
-    // Устанавливаем сообщения об ошибках
     setErrorMessages(newErrorMessages);
-
-    // Проверяем, есть ли пустые поля
     const isEmptyField = newErrorMessages.some(message => message !== '');
     if (isEmptyField) {
       return;
     }
-
-    // Если все поля заполнены, сохраняем изменения
     onSaveEdit([...editingParams]);
   };
 
   return (
     <div className="neural-network-block">
       <div className="block-header">
-        {name}
+        <div className="block-header"><a href={link} target="_blank">{name}</a></div>
       </div>
       <div className="block-content">
         {editing ? (
@@ -43,7 +38,7 @@ const NeuralNetworkBlock = ({ name, parameters, onDuplicate, onEdit, onDelete, e
                 {param.name} : 
                 <input
                   type="text"
-                  value={param.value}
+                  value={`${param.value}`}
                   onChange={(e) => {
                     setErrorMessages([]);
                     const updatedParameters = [...editingParams];
@@ -58,7 +53,7 @@ const NeuralNetworkBlock = ({ name, parameters, onDuplicate, onEdit, onDelete, e
           <ul>
             {parameters.map((param, index) => (
               <li key={index}>
-                {param.name}: {param.value}
+                {param.name}: {`${param.value}`}
               </li>
             ))}
           </ul>

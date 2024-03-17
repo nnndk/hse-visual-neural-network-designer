@@ -1,15 +1,15 @@
 import React from 'react';
 import '../styles/NeuralNetworkBlock.css';
 
-const BaseBlock = ({ name, parameters }) => {
+const BaseBlock = ({ name, link, parameters }) => {
   return (
     <div className="neural-network-block">
-      <div className="block-header">{name}</div>
+      <div className="block-header"><a href={link} target="_blank">{name}</a></div>
       <div className="block-content">
         <ul>
               {parameters.map((param, index) => (
                 <li key={index}>
-                  {param.name}: {param.value}
+                  {param.name}: {`${param.value}`}
                 </li>
               ))}
           </ul>
