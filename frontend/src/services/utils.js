@@ -38,3 +38,34 @@ export const applyDrag = (arr, dragResult) => {
 
     return `${library}_model_${currentTimeString}`;
   }
+
+  export const convertToProperType = (value) => {
+
+    if (value.toLowerCase() === 'null' || value === null) {
+        return null;
+    }
+
+    if (Array.isArray(value)) {
+        return value;
+    }
+
+    if (typeof value === 'string' && value.includes(',')) {
+      return value.split(',').map(item => convertToProperType(item.trim()));
+    }
+
+    let floatValue = parseFloat(value);
+    if (!isNaN(floatValue)) {
+        return floatValue;
+    }
+
+    let intValue = parseInt(value, 10);
+    if (!isNaN(intValue)) {
+        return intValue;
+    }
+    
+    if (value.toLowerCase() === 'true' || value.toLowerCase() === 'false') {
+        return value.toLowerCase() === 'true';
+    }
+
+    return value;
+}

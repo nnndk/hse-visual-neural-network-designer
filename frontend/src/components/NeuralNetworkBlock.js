@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import React from 'react';
+import { convertToProperType } from '../services/utils';
 import '../styles/NeuralNetworkBlock.css';
 import '../styles/NewNeuralNetworkBlock.css';
 
@@ -19,7 +20,9 @@ const NeuralNetworkBlock = ({ name, link, parameters, onDuplicate, onEdit, onDel
     if (isEmptyField) {
       return;
     }
-    onSaveEdit([...editingParams]);
+    
+    const updatedParams = editingParams.map(p => ({name: p.name, value: convertToProperType(`${p.value}`)}));
+    onSaveEdit([...updatedParams]);
   };
 
   return (
