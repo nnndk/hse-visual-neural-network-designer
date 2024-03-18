@@ -1,6 +1,11 @@
-from typing import List
+from typing import List, Literal
 from pydantic import BaseModel
 from abc import ABC, abstractmethod
+
+
+class NNLibs:
+    pytorch = 'pytorch'
+    tensorflow = 'tensorflow'
 
 
 class ModelToPythonCode(ABC):
@@ -28,9 +33,9 @@ class NNBlock(BaseModel, ModelToPythonCode):
 
     def set_library_prefix(self, lib_prefix: str) -> None:
         """Set library prefix that will be added before every block in python model"""
-        if lib_prefix == 'pytorch':
+        if lib_prefix == NNLibs.pytorch:
             self.library_prefix = 'nn'
-        elif lib_prefix == 'tensorflow':
+        elif lib_prefix == NNLibs.tensorflow:
             self.library_prefix = 'tf.keras.layers'
         else:
             self.library_prefix = ''
@@ -54,7 +59,7 @@ class NNBlock(BaseModel, ModelToPythonCode):
 
 
 class NNModel(BaseModel, ModelToPythonCode):
-    library: str
+    library: Literal['pytorch', 'tensorflow']
     blocks: List[NNBlock]
 
     def _all_blocks_to_python_code(self) -> str:
@@ -70,9 +75,9 @@ class NNModel(BaseModel, ModelToPythonCode):
     def to_python_code(self) -> str:
         str_blocks = self._all_blocks_to_python_code()
 
-        if self.library == 'pytorch':
+        if self.library == NNLibs.pytorch:
             return f'nn.Sequential(\n{str_blocks})'
-        elif self.library == 'tensorflow':
+        elif self.library == NNLibs.tensorflow:
             return f'tf.keras.models.Sequential(\n{str_blocks})'
         else:
             return ''

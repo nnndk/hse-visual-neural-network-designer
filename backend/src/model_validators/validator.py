@@ -1,5 +1,6 @@
 import torch
 from torch import nn
+import tensorflow as tf
 
 
 class NNModelValidator:
@@ -22,5 +23,15 @@ class NNModelValidator:
                 return True
             except:
                 return False
+        except:
+            return False
+
+    @staticmethod
+    def validate_tensorflow_model(str_model: str) -> bool:
+        """Validate tensorflow model"""
+        try:
+            model = eval(str_model)
+
+            return True
         except:
             return False
