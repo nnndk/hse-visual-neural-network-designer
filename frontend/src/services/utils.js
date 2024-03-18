@@ -69,3 +69,12 @@ export const applyDrag = (arr, dragResult) => {
 
     return value;
 }
+
+export const getTypeForInput = (value) => {
+  if(value === null)
+    return "text";
+  else if (typeof value === 'boolean' || (value.toLowerCase() === 'true' || value.toLowerCase() === 'false'))
+    return "checkbox";
+  else
+    return "text";
+}

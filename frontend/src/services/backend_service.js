@@ -13,6 +13,8 @@ export const exportBlocks = async (payload, library) => {
         success: 'Экспорт выполнен успешно',
         error: {
           render(response){
+            if(response.data.response === undefined)
+              return "Сервер не доступен!";
             const statusCode = response.data.response.status;
             if(statusCode == 400)
               return "Не удалось экспортировать модель!";
@@ -36,6 +38,8 @@ export const validateModel = async (payload) => {
         success: "Модель корректна",
         error: {
           render(response){
+            if(response.data.response === undefined)
+              return "Сервер не доступен!";
             const statusCode = response.data.response.status;
             if(statusCode == 400)
               return "Модель не корректна!";
