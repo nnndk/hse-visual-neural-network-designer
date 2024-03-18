@@ -20,9 +20,7 @@ def generate_model(model: NNModel, response: Response):
     elif model.library == NNLibs.tensorflow:
         result = NNModelValidator.validate_tensorflow_model(python_model)
 
-    if result:
-        return status.HTTP_200_OK
-    else:
+    if not result:
         response.status_code = status.HTTP_400_BAD_REQUEST
 
 
