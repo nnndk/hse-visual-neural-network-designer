@@ -1,33 +1,51 @@
 import axios from 'axios';
 import { localBaseUrl } from './environment';
 import { getFileName } from './utils';
-import { toast, Bounce } from 'react-toastify';
+import { toast } from 'react-toastify';
 
-const exportBlocks = async (payload, library) => {
+export const exportBlocks = async (payload, library) => {
   try {
-    console.log(payload);
+    const promise = axios.post(`${localBaseUrl}/get_model/`, payload);
+    await toast.promise(
+      promise,
+      {
+        pending: 'Экспорт модели...',
+        success: 'Экспорт выполнен успешно',
+        error: {
+          render(response){
+            const statusCode = response.data.response.status;
+            if(statusCode == 400)
+              return "Не удалось экспортировать модель!";
+            else
+              return "Ошибка экспорта модели!"
+          }
+        }
+      }
+    );
+    getPyFile((await promise).data, getFileName(library));
+  } catch (error) { }
+};
 
-    const response = await axios.post(`${localBaseUrl}/get_model/`, payload);
-
-    if(response.status == 200){
-        getPyFile(response.data, getFileName(library));
-        return;
-    }
-
-
-  } catch (error) {
-    toast.error('🦄 Ошибка экспорта!', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-        });
-  }
+export const validateModel = async (payload) => {
+  try {
+    const promise = axios.post(`${localBaseUrl}/validate_model/`, payload);
+    await toast.promise(
+      promise,
+      {
+        pending: 'Валидация модели...',
+        success: "Модель корректна",
+        error: {
+          render(response){
+            const statusCode = response.data.response.status;
+            if(statusCode == 400)
+              return "Модель не корректна!";
+            else
+              return "Ошибка валидации модели!"
+          }
+        }
+      }
+    );
+  } catch (error) { } 
 };
 
 const getPyFile = (data, fileName) => {
@@ -39,5 +57,3 @@ const getPyFile = (data, fileName) => {
     downloadLink.click();
     URL.revokeObjectURL(downloadLink);
 }
-
-export default exportBlocks;
