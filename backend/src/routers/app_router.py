@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, Response, status
 from fastapi.responses import PlainTextResponse
 
 from models.nn_block_models import NNModel, NNLibs
@@ -9,8 +9,8 @@ AppRouter = APIRouter(
 )
 
 
-@AppRouter.get('/validate_model/')
-def generate_model(model: NNModel):
+@AppRouter.get('/validate_model/', status_code=status.HTTP_200_OK)
+def generate_model(model: NNModel, response: Response):
     python_model = model.to_python_code()
     result = False
 
@@ -23,14 +23,14 @@ def generate_model(model: NNModel):
     if result:
         return status.HTTP_200_OK
     else:
-        return status.HTTP_400_BAD_REQUEST
+        response.status_code = status.HTTP_400_BAD_REQUEST
 
 
-@AppRouter.post('/get_model/', response_class=PlainTextResponse)
-def generate_model(model: NNModel):
+@AppRouter.get('/get_model/', status_code=status.HTTP_201_CREATED, response_class=PlainTextResponse)
+def generate_model(model: NNModel, response: Response):
     python_model = model.to_python_code()
 
     if python_model != '':
         return python_model
     else:
-        return status.HTTP_400_BAD_REQUEST
+        response.status_code = status.HTTP_400_BAD_REQUEST
