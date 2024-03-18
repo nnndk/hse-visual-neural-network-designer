@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import React from 'react';
-import { convertToProperType } from '../services/utils';
+import { convertToProperType, getTypeForInput } from '../services/utils';
 import '../styles/NeuralNetworkBlock.css';
 import '../styles/NewNeuralNetworkBlock.css';
 
@@ -38,7 +38,19 @@ const NeuralNetworkBlock = ({ name, link, parameters, onDuplicate, onEdit, onDel
             ))}
             {editingParams.map((param, index) => (
               <li key={index}>
-                {param.name} : 
+              {param.name} : 
+              {getTypeForInput(`${param.value}`) === 'checkbox' ? (
+                <input
+                  type="checkbox"
+                  checked={param.value}
+                  onChange={(e) => {
+                    setErrorMessages([]);
+                    const updatedParameters = [...editingParams];
+                    updatedParameters[index].value = e.target.checked;
+                    onUpdateParams(updatedParameters);
+                  }}
+                />
+              ) : (
                 <input
                   type="text"
                   value={`${param.value}`}
@@ -49,7 +61,8 @@ const NeuralNetworkBlock = ({ name, link, parameters, onDuplicate, onEdit, onDel
                     onUpdateParams(updatedParameters);
                   }}
                 />
-              </li>
+              )}
+            </li>
             ))}
           </ul>
         ) : (

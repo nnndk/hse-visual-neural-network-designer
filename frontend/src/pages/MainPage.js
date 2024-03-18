@@ -49,7 +49,6 @@ class Copy extends Component {
   };
   
   handleSaveEdit = (updatedParameters) => {
-    console.log(updatedParameters);
     if(updatedParameters == undefined){
       this.setState({ editingBlockId: null, editingBlock: null });
       return;
