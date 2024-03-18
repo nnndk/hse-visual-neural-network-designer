@@ -24,7 +24,7 @@ def generate_model(model: NNModel, response: Response):
         response.status_code = status.HTTP_400_BAD_REQUEST
 
 
-@AppRouter.get('/get_model/', status_code=status.HTTP_201_CREATED, response_class=PlainTextResponse)
+@AppRouter.post('/get_model/', status_code=status.HTTP_201_CREATED, response_class=PlainTextResponse)
 def generate_model(model: NNModel, response: Response):
     python_model = model.to_python_code()
 
