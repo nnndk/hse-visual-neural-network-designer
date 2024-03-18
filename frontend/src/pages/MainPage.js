@@ -3,7 +3,8 @@ import { Container, Draggable } from 'react-smooth-dnd';
 import { applyDrag, copyObj, generateGuid } from '../services/utils';
 import BaseBlock from '../components/BaseBlock';
 import NeuralNetworkBlock from '../components/NeuralNetworkBlock';
-import exportBlocks from '../services/backend_service';
+import {exportBlocks, validateModel } from '../services/backend_service';
+import { toast, Bounce } from 'react-toastify';
 import '../styles/MainPage.css';
 
 const pytorchBlocks = require('../library_blocks/pytorch.json');
@@ -73,15 +74,43 @@ class Copy extends Component {
     this.setState({ searchTerm: event.target.value });
   };
   
-  exportData = () => {
+  handleExportData = () => {
+    if(this.state.neuralNetwork == 0){
+      this.showWarningMessage("Модель пуста!");
+      return;
+    }
     const blocks = this.state.neuralNetwork.map(i => ({ name: i.name, params: copyObj(i.parameters) }));
     const payload = { library: this.state.library, blocks: blocks }
     exportBlocks(payload, this.state.library);
   };
 
+  handleValidateModel = () => {
+    if(this.state.neuralNetwork == 0){
+      this.showWarningMessage("Модель пуста!");
+      return;
+    }
+    const blocks = this.state.neuralNetwork.map(i => ({ name: i.name, params: copyObj(i.parameters) }));
+    const payload = { library: this.state.library, blocks: blocks }
+    validateModel(payload);  
+  }
+
   handleChangeLibraryType = (library) => {
     const blocks = library == "pytorch" ? pytorchBlocks : tensorflowBlocks;
     this.setState({ currentBlocks: blocks, neuralNetwork: [], library: library});
+  }
+
+  showWarningMessage = (text) => {
+    toast.warn(text, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      });
   }
 
   render() {
@@ -124,7 +153,8 @@ class Copy extends Component {
         </div>
         <div className="container second-container">
           <div className='header-label'>Нейросеть</div>
-          <button className="export-button" onClick={this.exportData}>Экспорт</button>
+          <button className="export-button" onClick={this.handleValidateModel}>Проверить модель</button>
+          <button className="export-button" onClick={this.handleExportData}>Экспорт</button>
           <Container groupName="1" getChildPayload={i => this.state.neuralNetwork[i]} onDrop={e => this.setState({ neuralNetwork: applyDrag(this.state.neuralNetwork, e) })}>
             {
               this.state.neuralNetwork.map((p, i) => {
