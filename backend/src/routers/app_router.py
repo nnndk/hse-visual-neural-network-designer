@@ -9,7 +9,7 @@ AppRouter = APIRouter(
 )
 
 
-@AppRouter.get('/validate_model/', status_code=status.HTTP_200_OK)
+@AppRouter.get('/validate_model/')
 def generate_model(model: NNModel):
     python_model = model.to_python_code()
     result = False
@@ -26,7 +26,7 @@ def generate_model(model: NNModel):
         return status.HTTP_400_BAD_REQUEST
 
 
-@AppRouter.post('/get_model/', status_code=status.HTTP_200_OK, response_class=PlainTextResponse)
+@AppRouter.post('/get_model/', response_class=PlainTextResponse)
 def generate_model(model: NNModel):
     python_model = model.to_python_code()
 
