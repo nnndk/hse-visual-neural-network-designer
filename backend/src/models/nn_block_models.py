@@ -21,7 +21,7 @@ class NNBlockParam(BaseModel, ModelToPythonCode):
 
     def to_python_code(self) -> str:
         if isinstance(self.value, str):
-            self.value = f'"{self.value}"'
+            self.value = f'\\"{self.value}\\"'
 
         return f'{self.name}={self.value}'
 
@@ -68,19 +68,22 @@ class NNModel(BaseModel, ModelToPythonCode):
 
         for block in self.blocks:
             block.set_library_prefix(self.library)
-            str_blocks += f'\t{block.to_python_code()},\n'
+            str_blocks += f'\\t{block.to_python_code()},\n'
 
         return str_blocks
 
     def to_python_code(self) -> str:
         str_blocks = self._all_blocks_to_python_code()
+        model = ''
 
         if self.library == NNLibs.pytorch:
-            return f'nn.Sequential(\n{str_blocks})'
+            model = f'model = nn.Sequential(\n{str_blocks})'
+            model = NNModel.to_pytorch_ipynb(model)
         elif self.library == NNLibs.tensorflow:
-            return f'tf.keras.models.Sequential(\n{str_blocks})'
-        else:
-            return ''
+            model = f'model = tf.keras.models.Sequential(\n{str_blocks})'
+            model = NNModel.to_tensorflow_ipynb(model)
+
+        return model
 
     def _get_first_param(self, param: str) -> str:
         """Get first value of this param from the model"""
@@ -113,3 +116,39 @@ class NNModel(BaseModel, ModelToPythonCode):
             return 3
 
         return int(val)
+
+    @staticmethod
+    def _model_to_json(model: str) -> str:
+        model_list = model.split('\n')
+        model_list = list(map(lambda row: f'"{row}\\n"', model_list))
+        model_list[-1] = model_list[-1].replace('\\n', '')
+        new_model = ', '.join(model_list)
+
+        return new_model
+
+    @staticmethod
+    def to_pytorch_ipynb(model: str) -> str:
+        new_model = NNModel._model_to_json(model)
+
+        with open('src/static/ipynb_template.txt', 'r') as f:
+            ipynb_text = f.read()
+            ipynb_text = ipynb_text.replace('"***PLACE FOR LIB INSTALLATION***"', f'"!pip install torch"')
+            ipynb_text = ipynb_text.replace('"***PLACE FOR LIB IMPORT***"', f'"import torch\\n", '
+                                                                            f'"from torch import nn"')
+            ipynb_text = ipynb_text.replace('"***PLACE FOR MODEL***"', f'{new_model}')
+
+            return ipynb_text
+
+    @staticmethod
+    def to_tensorflow_ipynb(model: str) -> str:
+        new_model = NNModel._model_to_json(model)
+
+        with open('src/static/ipynb_template.txt', 'r') as f:
+            ipynb_text = f.read()
+            ipynb_text = ipynb_text.replace('"***PLACE FOR LIB INSTALLATION***"',
+                                            f'"!pip install tensorflow"')
+            ipynb_text = ipynb_text.replace('"***PLACE FOR LIB IMPORT***"', f'"import tensorflow as tf"')
+            ipynb_text = ipynb_text.replace('"***PLACE FOR MODEL***"', f'{new_model}')
+            print(ipynb_text)
+
+            return ipynb_text

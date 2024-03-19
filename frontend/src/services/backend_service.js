@@ -53,11 +53,11 @@ export const validateModel = async (payload) => {
 };
 
 const getPyFile = (data, fileName) => {
-    const file = new Blob([data], { type: 'application/octet-stream' });
+    const file = new Blob([JSON.stringify([data][0], undefined, 2)], { type: 'application/json' })
 
     const downloadLink = document.createElement('a');
     downloadLink.href = window.URL.createObjectURL(file);
-    downloadLink.download = `${fileName}.py`;
+    downloadLink.download = `${fileName}.ipynb`;
     downloadLink.click();
     URL.revokeObjectURL(downloadLink);
 }
