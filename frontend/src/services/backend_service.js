@@ -24,7 +24,7 @@ export const exportBlocks = async (payload, library) => {
         }
       }
     );
-    getPyFile((await promise).data, getFileName(library));
+    getIpynbFile((await promise).data, getFileName(library));
   } catch (error) { }
 };
 
@@ -52,7 +52,7 @@ export const validateModel = async (payload) => {
   } catch (error) { } 
 };
 
-const getPyFile = (data, fileName) => {
+const getIpynbFile = (data, fileName) => {
     const file = new Blob([JSON.stringify([data][0], undefined, 2)], { type: 'application/json' })
 
     const downloadLink = document.createElement('a');
