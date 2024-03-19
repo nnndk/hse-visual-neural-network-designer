@@ -149,6 +149,5 @@ class NNModel(BaseModel, ModelToPythonCode):
                                             f'"!pip install tensorflow"')
             ipynb_text = ipynb_text.replace('"***PLACE FOR LIB IMPORT***"', f'"import tensorflow as tf"')
             ipynb_text = ipynb_text.replace('"***PLACE FOR MODEL***"', f'{new_model}')
-            print(ipynb_text)
 
             return ipynb_text
