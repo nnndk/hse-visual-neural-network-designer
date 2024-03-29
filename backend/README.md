@@ -4,7 +4,7 @@ To run server, you need to execute the following steps:
 
 1. Install python 3.10
 2. Install all the requirements from "requirements.txt" (with PyCharm or with the command 'pip install -r "requirements.txt"')
-3. (Optional) Install "msvcp140_1.dll" (usually it has already installed; if it's not, python will report it in the next step)
+3. Install (if it isn't installed yet) "msvcp140_1.dll" (usually it has already installed; if it's not, python will report it in the next step)
 4. Run "src\main.py" (with Pycharm or with the command "python.exe src\main.py")
 
 ## API
