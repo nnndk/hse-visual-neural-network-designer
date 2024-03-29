@@ -10,7 +10,7 @@ class NNLibs:
 
 class ModelToPythonCode(ABC):
     @abstractmethod
-    def to_python_code(self) -> str:
+    def to_python_code(self, ipynb=True) -> str:
         """Convert a model to python code"""
         pass
 
@@ -19,9 +19,12 @@ class NNBlockParam(BaseModel, ModelToPythonCode):
     name: str
     value: str | int | bool | float | tuple | None
 
-    def to_python_code(self) -> str:
+    def to_python_code(self, ipynb=True) -> str:
         if isinstance(self.value, str):
-            self.value = f'\\"{self.value}\\"'
+            if ipynb:
+                self.value = f'\\"{self.value}\\"'
+            else:
+                self.value = f'"{self.value}"'
 
         return f'{self.name}={self.value}'
 
@@ -40,20 +43,20 @@ class NNBlock(BaseModel, ModelToPythonCode):
         else:
             self.library_prefix = ''
 
-    def _params_to_python_code(self) -> str:
+    def _params_to_python_code(self, ipynb=True) -> str:
         """Convert all block params into python code (str)"""
         result = ''
 
         for par in self.params:
-            result += f'{par.to_python_code()}, '
+            result += f'{par.to_python_code(ipynb)}, '
 
         if len(result) != 0:
             result = result[:-2]
 
         return result
 
-    def to_python_code(self) -> str:
-        str_params = self._params_to_python_code()
+    def to_python_code(self, ipynb=True) -> str:
+        str_params = self._params_to_python_code(ipynb)
 
         return f'{self.library_prefix}.{self.name}({str_params})'
 
@@ -62,26 +65,37 @@ class NNModel(BaseModel, ModelToPythonCode):
     library: Literal['pytorch', 'tensorflow']
     blocks: List[NNBlock]
 
-    def _all_blocks_to_python_code(self) -> str:
+    def _all_blocks_to_python_code(self, ipynb=True) -> str:
         """Convert all blocks into python code (str)"""
         str_blocks = ''
 
-        for block in self.blocks:
-            block.set_library_prefix(self.library)
-            str_blocks += f'\\t{block.to_python_code()},\n'
+        if ipynb:
+            for block in self.blocks:
+                block.set_library_prefix(self.library)
+                str_blocks += f'\\t{block.to_python_code(ipynb)},\n'
+        else:
+            for block in self.blocks:
+                block.set_library_prefix(self.library)
+                str_blocks += f'\t{block.to_python_code(ipynb)},\n'
 
         return str_blocks
 
-    def to_python_code(self) -> str:
-        str_blocks = self._all_blocks_to_python_code()
+    def to_python_code(self, ipynb=True) -> str:
+        str_blocks = self._all_blocks_to_python_code(ipynb)
         model = ''
 
-        if self.library == NNLibs.pytorch:
-            model = f'model = nn.Sequential(\n{str_blocks})'
-            model = NNModel.to_pytorch_ipynb(model)
-        elif self.library == NNLibs.tensorflow:
-            model = f'model = tf.keras.models.Sequential(\n{str_blocks})'
-            model = NNModel.to_tensorflow_ipynb(model)
+        if ipynb:
+            if self.library == NNLibs.pytorch:
+                model = f'model = nn.Sequential(\n{str_blocks})'
+                model = NNModel.to_pytorch_ipynb(model)
+            elif self.library == NNLibs.tensorflow:
+                model = f'model = tf.keras.models.Sequential(\n{str_blocks})'
+                model = NNModel.to_tensorflow_ipynb(model)
+        else:
+            if self.library == NNLibs.pytorch:
+                model = f'nn.Sequential(\n{str_blocks})'
+            elif self.library == NNLibs.tensorflow:
+                model = f'tf.keras.models.Sequential(\n{str_blocks})'
 
         return model
 
@@ -130,7 +144,7 @@ class NNModel(BaseModel, ModelToPythonCode):
     def to_pytorch_ipynb(model: str) -> str:
         new_model = NNModel._model_to_json(model)
 
-        with open('src/static/ipynb_template.txt', 'r') as f:
+        with open('static/ipynb_template.txt', 'r') as f:
             ipynb_text = f.read()
             ipynb_text = ipynb_text.replace('"***PLACE FOR LIB INSTALLATION***"', f'"!pip install torch"')
             ipynb_text = ipynb_text.replace('"***PLACE FOR LIB IMPORT***"', f'"import torch\\n", '
@@ -143,7 +157,7 @@ class NNModel(BaseModel, ModelToPythonCode):
     def to_tensorflow_ipynb(model: str) -> str:
         new_model = NNModel._model_to_json(model)
 
-        with open('src/static/ipynb_template.txt', 'r') as f:
+        with open('static/ipynb_template.txt', 'r') as f:
             ipynb_text = f.read()
             ipynb_text = ipynb_text.replace('"***PLACE FOR LIB INSTALLATION***"',
                                             f'"!pip install tensorflow"')
