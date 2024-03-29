@@ -67,7 +67,7 @@
     "name": "Flatten",
     "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Flatten",
     "parameters": [
-      { "name": "data_format", "value": null }
+      { "name": "input_shape", "value": [28, 28] }
     ]
   },
   {
@@ -76,9 +76,7 @@
     "doc_link": "https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense",
     "parameters": [
       { "name": "units", "value": 64 },
-      { "name": "use_bias", "value": true },
-      { "name": "kernel_initializer", "value": "glorot_uniform" },
-      { "name": "bias_initializer", "value": "zeros" }
+      { "name": "activation", "value": null }
     ]
   }
 ]

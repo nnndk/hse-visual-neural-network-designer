@@ -89,13 +89,13 @@ class NNModel(BaseModel, ModelToPythonCode):
                 model = f'model = nn.Sequential(\n{str_blocks})'
                 model = NNModel.to_pytorch_ipynb(model)
             elif self.library == NNLibs.tensorflow:
-                model = f'model = tf.keras.models.Sequential(\n{str_blocks})'
+                model = f'model = tf.keras.models.Sequential([\n{str_blocks}])'
                 model = NNModel.to_tensorflow_ipynb(model)
         else:
             if self.library == NNLibs.pytorch:
                 model = f'nn.Sequential(\n{str_blocks})'
             elif self.library == NNLibs.tensorflow:
-                model = f'tf.keras.models.Sequential(\n{str_blocks})'
+                model = f'tf.keras.models.Sequential([\n{str_blocks}])'
 
         return model
 
