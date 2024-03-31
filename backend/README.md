@@ -11,7 +11,7 @@ To run server, you need to execute the following steps:
 
 <details>
 <summary>
-    <code>POST</code> <b><code>/validate_model/</code></b>Check if a model is correct (try to run one epoch)
+    <code>POST</code> <b><code>/validate_model/</code></b> Check if a model is correct (try to run one epoch)
 </summary>
 
 #### Parameters
@@ -71,7 +71,7 @@ Only HTTP-code:
 
 <details>
 <summary>
-    <code>POST</code> <b><code>/get_model/</code></b>Generate a model from JSON and send it back in .ipynb (JSON) format
+    <code>POST</code> <b><code>/get_model/</code></b> Generate a model from JSON and send it back in .ipynb (JSON) format
 </summary>
 
 #### Parameters
